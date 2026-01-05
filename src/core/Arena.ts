@@ -578,6 +578,12 @@ export class Arena<TGameState = Record<string, unknown>> {
           break;
 
         case 'state':
+          // If opponent not set yet (missed join event), create from state
+          if (!this._opponent && this._roomState.status === 'waiting' && event.pubkey) {
+            this._opponent = this.createInitialOpponent(event.pubkey);
+            this._roomState = { ...this._roomState, status: 'ready' };
+            this.callbacks.onOpponentJoin?.(event.pubkey);
+          }
           if (this._opponent) {
             this._opponent = {
               ...this._opponent,
@@ -598,6 +604,12 @@ export class Arena<TGameState = Record<string, unknown>> {
           break;
 
         case 'heartbeat':
+          // If opponent not set yet (missed join event), create from heartbeat
+          if (!this._opponent && this._roomState.status === 'waiting' && event.pubkey) {
+            this._opponent = this.createInitialOpponent(event.pubkey);
+            this._roomState = { ...this._roomState, status: 'ready' };
+            this.callbacks.onOpponentJoin?.(event.pubkey);
+          }
           if (this._opponent) {
             this._opponent = {
               ...this._opponent,
