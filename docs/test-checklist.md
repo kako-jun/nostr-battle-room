@@ -131,7 +131,7 @@
 
 ### 5.1 キー保存
 
-- [x] Nostr秘密鍵が `{gameId}-key` に保存される (verified: NostrClient.storageKeyPrefix)
+- [x] Nostr秘密鍵が `{gameId}-nsec` にnsec形式で保存される (verified: NostrClient.storageKeyPrefix)
 - [x] 再読み込みしても同じ公開鍵を使用 (verified: NostrClient constructor)
 
 ### 5.2 ルーム保存

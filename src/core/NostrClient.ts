@@ -4,6 +4,7 @@
  */
 
 import { SimplePool, finalizeEvent, generateSecretKey, getPublicKey } from 'nostr-tools';
+import { nsecEncode, decode } from 'nostr-tools/nip19';
 import type { Filter } from 'nostr-tools';
 import type { NostrEvent, Unsubscribe } from '../types';
 import { DEFAULT_CONFIG } from '../types';
@@ -114,28 +115,31 @@ export class NostrClient {
 
   /**
    * Connect to Nostr relays
-   * Generates or retrieves a key pair from storage
+   * Generates or retrieves a key pair from storage (nsec format)
    */
   connect(): void {
     if (this._isConnected) return;
 
-    // Generate or retrieve key pair
-    const storageKey = `${this.storageKeyPrefix}-key`;
+    const nsecKey = `${this.storageKeyPrefix}-nsec`;
 
     try {
-      const storedKey = this.storage.getItem(storageKey);
+      const storedNsec = this.storage.getItem(nsecKey);
 
-      if (storedKey) {
+      if (storedNsec?.startsWith('nsec1')) {
         try {
-          this.secretKey = new Uint8Array(JSON.parse(storedKey));
+          const decoded = decode(storedNsec);
+          if (decoded.type === 'nsec') {
+            this.secretKey = decoded.data;
+          } else {
+            throw new Error('Invalid nsec');
+          }
         } catch {
-          // Invalid stored key, generate new one
           this.secretKey = generateSecretKey();
-          this.safeStorageSet(storageKey, JSON.stringify(Array.from(this.secretKey)));
+          this.safeStorageSet(nsecKey, nsecEncode(this.secretKey));
         }
       } else {
         this.secretKey = generateSecretKey();
-        this.safeStorageSet(storageKey, JSON.stringify(Array.from(this.secretKey)));
+        this.safeStorageSet(nsecKey, nsecEncode(this.secretKey));
       }
     } catch {
       // Storage not available, generate ephemeral key

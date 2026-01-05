@@ -291,10 +291,10 @@ state update
 
 ### localStorage Keys
 
-| Key             | Content                       | Expiry     |
-| --------------- | ----------------------------- | ---------- |
-| `{gameId}-key`  | Nostr secret key (JSON array) | Never      |
-| `{gameId}-room` | Room data for reconnection    | 10 minutes |
+| Key              | Content                            | Expiry     |
+| ---------------- | ---------------------------------- | ---------- |
+| `{gameId}-nsec`  | Nostr secret key (nsec1... format) | Never      |
+| `{gameId}-room`  | Room data for reconnection         | 10 minutes |
 
 ### Stored Room Data
 
