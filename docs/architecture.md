@@ -2,7 +2,7 @@
 
 ## Overview
 
-nostr-battle-room provides a generic battle room system for 2-player online games using Nostr protocol.
+nostr-arena provides a generic battle room system for 2-player online games using Nostr protocol.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -15,7 +15,7 @@ nostr-battle-room provides a generic battle room system for 2-player online game
                                        │
                                        ▼
 ┌─────────────────────────────────────────────────────────┐
-│                   nostr-battle-room                     │
+│                   nostr-arena                     │
 │  ┌─────────────────────────────────────────────────┐   │
 │  │                  BattleRoom                      │   │
 │  │  - Room lifecycle (create/join/leave)           │   │

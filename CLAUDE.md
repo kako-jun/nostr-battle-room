@@ -1,13 +1,13 @@
 # CLAUDE.md - Project Context for Claude
 
-## Project: nostr-battle-room
+## Project: nostr-arena
 
 A generic NPM package for Nostr-based real-time multiplayer game rooms. No server required.
 
 ## Quick Start
 
 ```bash
-cd packages/nostr-battle-room
+cd packages/nostr-arena
 npm install   # Install dependencies
 npm run build # Build TypeScript
 npm run dev   # Watch mode
@@ -98,7 +98,7 @@ room.onError((error) => {});
 ## Testing
 
 ```typescript
-import { MockBattleRoom } from 'nostr-battle-room/testing';
+import { MockBattleRoom } from 'nostr-arena/testing';
 
 const mock = new MockBattleRoom({ gameId: 'test' });
 mock.simulateOpponentJoin('pubkey');
@@ -129,7 +129,7 @@ Edit `DEFAULT_CONFIG` in `types.ts`
 Call `configureProxy()` before creating rooms:
 
 ```typescript
-import { configureProxy } from 'nostr-battle-room';
+import { configureProxy } from 'nostr-arena';
 configureProxy(); // Reads HTTPS_PROXY, HTTP_PROXY, ALL_PROXY env vars
 ```
 

@@ -176,7 +176,7 @@
 
 ### 検証方法
 
-1. Sasso に nostr-battle-room を統合
+1. Sasso に nostr-arena を統合
 2. 各項目を手動またはログで確認
 3. 失敗した項目は実装を修正
 

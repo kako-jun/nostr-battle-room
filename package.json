@@ -1,7 +1,7 @@
 {
-  "name": "nostr-battle-room",
+  "name": "nostr-arena",
   "version": "0.1.0",
-  "description": "Nostr-based real-time battle room for multiplayer games. No server required.",
+  "description": "Nostr-based real-time multiplayer game arena. No server required.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -49,11 +49,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kako-jun/nostr-battle-room.git"
+    "url": "git+https://github.com/kako-jun/nostr-arena.git"
   },
-  "homepage": "https://github.com/kako-jun/nostr-battle-room#readme",
+  "homepage": "https://github.com/kako-jun/nostr-arena#readme",
   "bugs": {
-    "url": "https://github.com/kako-jun/nostr-battle-room/issues"
+    "url": "https://github.com/kako-jun/nostr-arena/issues"
   },
   "peerDependencies": {
     "nostr-tools": "^2.0.0",

@@ -1,4 +1,4 @@
-# nostr-battle-room
+# nostr-arena
 
 Nostr-based real-time battle room for multiplayer games. No server required.
 
@@ -14,7 +14,7 @@ Nostr-based real-time battle room for multiplayer games. No server required.
 ## Installation
 
 ```bash
-npm install nostr-battle-room nostr-tools
+npm install nostr-arena nostr-tools
 ```
 
 ## Quick Start
@@ -22,7 +22,7 @@ npm install nostr-battle-room nostr-tools
 ### React
 
 ```tsx
-import { useBattleRoom } from 'nostr-battle-room/react';
+import { useBattleRoom } from 'nostr-arena/react';
 
 interface MyGameState {
   score: number;
@@ -58,7 +58,7 @@ function Game() {
 ### Vanilla JavaScript
 
 ```typescript
-import { BattleRoom } from 'nostr-battle-room';
+import { BattleRoom } from 'nostr-arena';
 
 interface MyGameState {
   score: number;
@@ -140,7 +140,7 @@ interface BattleRoomConfig {
 For Node.js environments or when you need proxy support, call `configureProxy()` before creating any rooms:
 
 ```typescript
-import { configureProxy, BattleRoom } from 'nostr-battle-room';
+import { configureProxy, BattleRoom } from 'nostr-arena';
 
 // Call once at startup
 configureProxy();
@@ -165,7 +165,7 @@ npm install https-proxy-agent     # Required for proxy support
 ## Testing
 
 ```typescript
-import { MockBattleRoom } from 'nostr-battle-room/testing';
+import { MockBattleRoom } from 'nostr-arena/testing';
 
 const mock = new MockBattleRoom<MyGameState>({ gameId: 'test' });
 
