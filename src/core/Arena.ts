@@ -325,7 +325,7 @@ export class Arena<TGameState = Record<string, unknown>> {
           '#d': [createRoomTag(this.config.gameId, roomId)],
           limit: 1,
         },
-        2000
+        5000
       );
     } catch (error) {
       // Relay connection failed

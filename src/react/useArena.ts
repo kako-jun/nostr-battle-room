@@ -186,18 +186,25 @@ export function useArena<TGameState = Record<string, unknown>>(
   const joinRoom = useCallback(async (roomId: string): Promise<void> => {
     if (!roomRef.current) throw new Error('Arena not initialized');
 
-    await roomRef.current.join(roomId);
-    setRoomState(roomRef.current.roomState);
+    try {
+      await roomRef.current.join(roomId);
+      setRoomState(roomRef.current.roomState);
 
-    const opp = roomRef.current.opponent;
-    if (opp) {
-      setOpponent({
-        publicKey: opp.publicKey,
-        gameState: opp.gameState ?? null,
-        isConnected: opp.isConnected,
-        lastHeartbeat: opp.lastHeartbeat,
-        rematchRequested: opp.rematchRequested,
-      });
+      const opp = roomRef.current.opponent;
+      if (opp) {
+        setOpponent({
+          publicKey: opp.publicKey,
+          gameState: opp.gameState ?? null,
+          isConnected: opp.isConnected,
+          lastHeartbeat: opp.lastHeartbeat,
+          rematchRequested: opp.rematchRequested,
+        });
+      }
+    } catch (error) {
+      // Reset state on join failure
+      setRoomState(INITIAL_ROOM_STATE);
+      setOpponent(null);
+      throw error;
     }
   }, []);
 
