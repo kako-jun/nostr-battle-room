@@ -1,12 +1,12 @@
 /**
- * nostr-battle-room - BattleRoom
+ * nostr-battle-room - Arena
  * Main class for managing multiplayer game rooms over Nostr
  */
 
 import { NostrClient } from './NostrClient';
 import type {
-  BattleRoomConfig,
-  BattleRoomCallbacks,
+  ArenaConfig,
+  ArenaCallbacks,
   RoomState,
   OpponentBase,
   NostrEvent,
@@ -31,7 +31,7 @@ interface InternalOpponentState<TGameState> extends OpponentBase {
 }
 
 /**
- * BattleRoom - Manages a multiplayer game room over Nostr
+ * Arena - Manages a multiplayer game room over Nostr
  *
  * @example
  * ```typescript
@@ -40,7 +40,7 @@ interface InternalOpponentState<TGameState> extends OpponentBase {
  *   position: { x: number; y: number };
  * }
  *
- * const room = new BattleRoom<MyGameState>({
+ * const room = new Arena<MyGameState>({
  *   gameId: 'my-game',
  *   relays: ['wss://relay.damus.io'],
  * });
@@ -53,10 +53,10 @@ interface InternalOpponentState<TGameState> extends OpponentBase {
  * console.log('Share this URL:', url);
  * ```
  */
-export class BattleRoom<TGameState = Record<string, unknown>> {
+export class Arena<TGameState = Record<string, unknown>> {
   private client: NostrClient;
-  private config: Required<BattleRoomConfig>;
-  private callbacks: BattleRoomCallbacks<TGameState> = {};
+  private config: Required<ArenaConfig>;
+  private callbacks: ArenaCallbacks<TGameState> = {};
 
   private _roomState: RoomState = { ...INITIAL_ROOM_STATE };
   private _opponent: InternalOpponentState<TGameState> | null = null;
@@ -72,7 +72,7 @@ export class BattleRoom<TGameState = Record<string, unknown>> {
     removeItem: (key: string) => void;
   };
 
-  constructor(config: BattleRoomConfig) {
+  constructor(config: ArenaConfig) {
     this.config = {
       ...DEFAULT_CONFIG,
       ...config,

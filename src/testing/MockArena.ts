@@ -1,22 +1,22 @@
 /**
- * nostr-battle-room - MockBattleRoom
+ * nostr-battle-room - MockArena
  * Testing utilities for battle room
  */
 
-import type { RoomState, OpponentBase, BattleRoomCallbacks, BattleRoomEventName } from '../types';
+import type { RoomState, OpponentBase, ArenaCallbacks, ArenaEventName } from '../types';
 import { INITIAL_ROOM_STATE, generateSeed, generateRoomId } from '../types';
 
 /**
  * Map event names to callback keys
  */
 type EventToCallback<TGameState> = {
-  opponentJoin: BattleRoomCallbacks<TGameState>['onOpponentJoin'];
-  opponentState: BattleRoomCallbacks<TGameState>['onOpponentState'];
-  opponentDisconnect: BattleRoomCallbacks<TGameState>['onOpponentDisconnect'];
-  opponentGameOver: BattleRoomCallbacks<TGameState>['onOpponentGameOver'];
-  rematchRequested: BattleRoomCallbacks<TGameState>['onRematchRequested'];
-  rematchStart: BattleRoomCallbacks<TGameState>['onRematchStart'];
-  error: BattleRoomCallbacks<TGameState>['onError'];
+  opponentJoin: ArenaCallbacks<TGameState>['onOpponentJoin'];
+  opponentState: ArenaCallbacks<TGameState>['onOpponentState'];
+  opponentDisconnect: ArenaCallbacks<TGameState>['onOpponentDisconnect'];
+  opponentGameOver: ArenaCallbacks<TGameState>['onOpponentGameOver'];
+  rematchRequested: ArenaCallbacks<TGameState>['onRematchRequested'];
+  rematchStart: ArenaCallbacks<TGameState>['onRematchStart'];
+  error: ArenaCallbacks<TGameState>['onError'];
 };
 
 /**
@@ -27,11 +27,11 @@ interface MockOpponentState<TGameState> extends OpponentBase {
 }
 
 /**
- * MockBattleRoom - For testing without real Nostr connections
+ * MockArena - For testing without real Nostr connections
  *
  * @example
  * ```typescript
- * const mock = new MockBattleRoom<MyGameState>({ gameId: 'test' });
+ * const mock = new MockArena<MyGameState>({ gameId: 'test' });
  *
  * // Simulate opponent joining
  * mock.simulateOpponentJoin('pubkey123');
@@ -43,10 +43,10 @@ interface MockOpponentState<TGameState> extends OpponentBase {
  * mock.simulateOpponentDisconnect();
  * ```
  */
-export class MockBattleRoom<TGameState = Record<string, unknown>> {
+export class MockArena<TGameState = Record<string, unknown>> {
   private _roomState: RoomState = { ...INITIAL_ROOM_STATE };
   private _opponent: MockOpponentState<TGameState> | null = null;
-  private callbacks: BattleRoomCallbacks<TGameState> = {};
+  private callbacks: ArenaCallbacks<TGameState> = {};
 
   constructor(_config: { gameId: string }) {
     // Config is accepted but not used in mock
@@ -68,12 +68,12 @@ export class MockBattleRoom<TGameState = Record<string, unknown>> {
     return 'mock-public-key';
   }
 
-  on<K extends BattleRoomEventName>(
+  on<K extends ArenaEventName>(
     event: K,
     callback: NonNullable<EventToCallback<TGameState>[K]>
   ): this {
     const callbackKey =
-      `on${event.charAt(0).toUpperCase()}${event.slice(1)}` as keyof BattleRoomCallbacks<TGameState>;
+      `on${event.charAt(0).toUpperCase()}${event.slice(1)}` as keyof ArenaCallbacks<TGameState>;
     (this.callbacks as Record<string, unknown>)[callbackKey] = callback;
     return this;
   }

@@ -6,4 +6,4 @@
 export { NostrClient } from './NostrClient';
 export type { NostrClientOptions } from './NostrClient';
 
-export { BattleRoom } from './BattleRoom';
+export { Arena } from './Arena';

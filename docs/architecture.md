@@ -8,8 +8,8 @@ nostr-arena provides a generic battle room system for 2-player online games usin
 ┌─────────────────────────────────────────────────────────┐
 │                      Your Game                          │
 │  ┌─────────────────┐     ┌─────────────────────────┐   │
-│  │   Game Logic    │────▶│  useBattleRoom (React)  │   │
-│  │   (your code)   │     │  or BattleRoom (core)   │   │
+│  │   Game Logic    │────▶│  useArena (React)  │   │
+│  │   (your code)   │     │  or Arena (core)   │   │
 │  └─────────────────┘     └───────────┬─────────────┘   │
 └──────────────────────────────────────┼─────────────────┘
                                        │
@@ -17,7 +17,7 @@ nostr-arena provides a generic battle room system for 2-player online games usin
 ┌─────────────────────────────────────────────────────────┐
 │                   nostr-arena                     │
 │  ┌─────────────────────────────────────────────────┐   │
-│  │                  BattleRoom                      │   │
+│  │                  Arena                      │   │
 │  │  - Room lifecycle (create/join/leave)           │   │
 │  │  - State synchronization                        │   │
 │  │  - Heartbeat / disconnect detection             │   │
@@ -69,12 +69,12 @@ class NostrClient {
 - Sign and publish events
 - Subscribe to event streams
 
-### BattleRoom
+### Arena
 
 Main class for room management.
 
 ```typescript
-class BattleRoom<TGameState> {
+class Arena<TGameState> {
   // Connection
   connect(): void;
   disconnect(): void;
@@ -119,20 +119,20 @@ class BattleRoom<TGameState> {
 - localStorage persistence for reconnection
 - Rematch coordination
 
-### useBattleRoom (React Hook)
+### useArena (React Hook)
 
-React wrapper for BattleRoom.
+React wrapper for Arena.
 
 ```typescript
-function useBattleRoom<TGameState>(
-  config: BattleRoomConfig,
-  callbacks?: BattleRoomCallbacks<TGameState>
-): UseBattleRoomReturn<TGameState>;
+function useArena<TGameState>(
+  config: ArenaConfig,
+  callbacks?: ArenaCallbacks<TGameState>
+): UseArenaReturn<TGameState>;
 ```
 
 **Returns:**
 
-- All BattleRoom functionality
+- All Arena functionality
 - React state that updates on changes
 - Memoized callbacks
 
@@ -256,7 +256,7 @@ state update
 
 ### NostrClient API
 
-低レベルAPI。通常は`BattleRoom`経由で使用。
+低レベルAPI。通常は`Arena`経由で使用。
 
 | メソッド                      | 種別            | 説明                              |
 | ----------------------------- | --------------- | --------------------------------- |

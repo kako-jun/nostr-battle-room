@@ -13,7 +13,7 @@
  * | rematchStart       | (newSeed: number)                | Rematch starting           |
  * | error              | (error: Error)                   | Error occurred             |
  *
- * Source: architecture.md - BattleRoom API
+ * Source: architecture.md - Arena API
  *
  * All callback methods return `this` for chaining:
  * - onOpponentJoin(callback): this
@@ -26,17 +26,17 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { MockBattleRoom } from '../testing/MockBattleRoom';
+import { MockArena } from '../testing/MockArena';
 
 interface TestGameState {
   score: number;
 }
 
 describe('Callbacks (README.md, architecture.md)', () => {
-  let room: MockBattleRoom<TestGameState>;
+  let room: MockArena<TestGameState>;
 
   beforeEach(() => {
-    room = new MockBattleRoom<TestGameState>({ gameId: 'test-game' });
+    room = new MockArena<TestGameState>({ gameId: 'test-game' });
   });
 
   describe('opponentJoin: (publicKey: string)', () => {
@@ -154,7 +154,7 @@ describe('Callbacks (README.md, architecture.md)', () => {
 
   describe('Chaining (architecture.md)', () => {
     /**
-     * Source: architecture.md - BattleRoom API
+     * Source: architecture.md - Arena API
      * All callback methods return `this` for chaining
      */
 

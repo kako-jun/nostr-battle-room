@@ -1,10 +1,10 @@
 /**
- * BattleRoomConfig Tests
+ * ArenaConfig Tests
  *
- * Source: README.md - BattleRoomConfig section
+ * Source: README.md - ArenaConfig section
  *
  * ```typescript
- * interface BattleRoomConfig {
+ * interface ArenaConfig {
  *   gameId: string; // Required: unique game identifier
  *   relays?: string[]; // Nostr relay URLs (default: public relays)
  *   roomExpiry?: number; // Room expiration in ms (default: 600000 = 10 min)
@@ -18,7 +18,7 @@
 import { describe, it, expect } from 'vitest';
 import { DEFAULT_CONFIG } from '../types';
 
-describe('BattleRoomConfig defaults (README.md)', () => {
+describe('ArenaConfig defaults (README.md)', () => {
   // "relays?: string[] // Nostr relay URLs (default: public relays)"
   it('relays should default to public relays', () => {
     expect(DEFAULT_CONFIG.relays).toBeDefined();

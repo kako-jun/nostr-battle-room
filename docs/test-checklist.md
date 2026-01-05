@@ -12,16 +12,16 @@
 
 ### 1.2 ルーム作成 (idle → waiting)
 
-- [x] `create()` を呼ぶと状態が `waiting` になる (verified: BattleRoom.create())
+- [x] `create()` を呼ぶと状態が `waiting` になる (verified: Arena.create())
 - [x] `roomId` が生成される（null でない）(verified: generateRoomId())
-- [x] `isHost` が `true` になる (verified: BattleRoom.create())
+- [x] `isHost` が `true` になる (verified: Arena.create())
 - [x] `seed` が生成される（0 でない）(verified: generateSeed())
 - [x] 戻り値は URL 文字列（`/battle/{roomId}` を含む）(verified: return文)
 
 ### 1.3 ルーム参加 (idle → ready)
 
-- [x] `join(roomId)` を呼ぶと状態が `ready` になる (verified: BattleRoom.join())
-- [x] `isHost` が `false` になる (verified: BattleRoom.join())
+- [x] `join(roomId)` を呼ぶと状態が `ready` になる (verified: Arena.join())
+- [x] `isHost` が `false` になる (verified: Arena.join())
 - [x] `seed` がホストと同じ値になる (verified: roomContent.seed)
 - [x] `opponent` が設定される（ホストの publicKey）(verified: createInitialOpponent)
 
@@ -33,18 +33,18 @@
 
 ### 1.5 退出 (any → idle)
 
-- [x] `leave()` を呼ぶと状態が `idle` になる (verified: BattleRoom.leave())
+- [x] `leave()` を呼ぶと状態が `idle` になる (verified: Arena.leave())
 - [x] `roomId` が `null` になる (verified: INITIAL_ROOM_STATE)
 - [x] `opponent` が `null` になる (verified: leave())
 
 ### 1.6 ゲームオーバー (playing → finished)
 
-- [x] `sendGameOver()` を呼ぶと状態が `finished` になる (verified: BattleRoom.sendGameOver())
+- [x] `sendGameOver()` を呼ぶと状態が `finished` になる (verified: Arena.sendGameOver())
 - [x] 相手の `gameover` イベントを受信すると `onOpponentGameOver` が呼ばれる (verified: handleRoomEvent)
 
 ### 1.7 リマッチ (finished → ready)
 
-- [x] `requestRematch()` を呼ぶと `rematchRequested` が `true` になる (verified: BattleRoom.requestRematch())
+- [x] `requestRematch()` を呼ぶと `rematchRequested` が `true` になる (verified: Arena.requestRematch())
 - [x] 相手のリマッチ要求で `onRematchRequested` が呼ばれる (verified: handleRoomEvent)
 - [x] 両者がリマッチすると `onRematchStart` が呼ばれる (verified: resetForRematch)
 - [x] 新しい `seed` が設定される (verified: resetForRematch)
@@ -63,15 +63,15 @@
 
 ### 2.3 ルーム作成イベント
 
-- [x] `type: "room"` を含む (verified: BattleRoom.create() content)
-- [x] `status: "waiting"` を含む (verified: BattleRoom.create() content)
-- [x] `seed` を含む（数値）(verified: BattleRoom.create() content)
-- [x] `hostPubkey` を含む (verified: BattleRoom.create() content)
+- [x] `type: "room"` を含む (verified: Arena.create() content)
+- [x] `status: "waiting"` を含む (verified: Arena.create() content)
+- [x] `seed` を含む（数値）(verified: Arena.create() content)
+- [x] `hostPubkey` を含む (verified: Arena.create() content)
 
 ### 2.4 参加イベント
 
-- [x] `type: "join"` を含む (verified: BattleRoom.join() content)
-- [x] `playerPubkey` を含む (verified: BattleRoom.join() content)
+- [x] `type: "join"` を含む (verified: Arena.join() content)
+- [x] `playerPubkey` を含む (verified: Arena.join() content)
 
 ### 2.5 状態更新イベント
 
@@ -108,23 +108,23 @@
 ### 3.3 ルーム有効期限
 
 - [x] 10分経過したルームには参加できない (verified: NOSTR_TIMEOUTS.ROOM_EXPIRY = 600000)
-- [x] エラーメッセージ: "Room has expired" (verified: useBattleRoom.ts:244)
+- [x] エラーメッセージ: "Room has expired" (verified: useArena.ts:244)
 
 ## 4. Error Handling (architecture.md)
 
 ### 4.1 存在しないルーム
 
-- [x] 存在しないルームに参加しようとするとエラー (verified: BattleRoom.join())
-- [x] エラーメッセージ: "Room not found" (verified: useBattleRoom.ts:236)
+- [x] 存在しないルームに参加しようとするとエラー (verified: Arena.join())
+- [x] エラーメッセージ: "Room not found" (verified: useArena.ts:236)
 
 ### 4.2 期限切れルーム
 
 - [x] 10分経過したルームに参加しようとするとエラー (verified: isExpired check)
-- [x] エラーメッセージ: "Room has expired" (verified: useBattleRoom.ts:244)
+- [x] エラーメッセージ: "Room has expired" (verified: useArena.ts:244)
 
 ### 4.3 未接続状態
 
-- [x] `connect()` 前に操作するとエラー (verified: BattleRoom auto-connects)
+- [x] `connect()` 前に操作するとエラー (verified: Arena auto-connects)
 - [x] エラーメッセージ: "NostrClient not connected" (verified: NostrClient throws)
 
 ## 5. Storage (architecture.md)
@@ -136,8 +136,8 @@
 
 ### 5.2 ルーム保存
 
-- [x] ルーム情報が `{gameId}-room` に保存される (verified: BattleRoom.storageKey)
-- [x] `reconnect()` で再接続できる (verified: BattleRoom.reconnect())
+- [x] ルーム情報が `{gameId}-room` に保存される (verified: Arena.storageKey)
+- [x] `reconnect()` で再接続できる (verified: Arena.reconnect())
 
 ### 5.3 有効期限
 
@@ -147,13 +147,13 @@
 
 ### 6.1 コールバック呼び出し
 
-- [x] `onOpponentJoin` - 相手参加時 (verified: BattleRoom.onOpponentJoin())
-- [x] `onOpponentState` - 相手の状態更新時 (verified: BattleRoom.onOpponentState())
-- [x] `onOpponentDisconnect` - 相手切断時 (verified: BattleRoom.onOpponentDisconnect())
-- [x] `onOpponentGameOver` - 相手ゲームオーバー時 (verified: BattleRoom.onOpponentGameOver())
-- [x] `onRematchRequested` - 相手リマッチ要求時 (verified: BattleRoom.onRematchRequested())
-- [x] `onRematchStart` - リマッチ開始時 (verified: BattleRoom.onRematchStart())
-- [x] `onError` - エラー発生時 (verified: BattleRoom.onError())
+- [x] `onOpponentJoin` - 相手参加時 (verified: Arena.onOpponentJoin())
+- [x] `onOpponentState` - 相手の状態更新時 (verified: Arena.onOpponentState())
+- [x] `onOpponentDisconnect` - 相手切断時 (verified: Arena.onOpponentDisconnect())
+- [x] `onOpponentGameOver` - 相手ゲームオーバー時 (verified: Arena.onOpponentGameOver())
+- [x] `onRematchRequested` - 相手リマッチ要求時 (verified: Arena.onRematchRequested())
+- [x] `onRematchStart` - リマッチ開始時 (verified: Arena.onRematchStart())
+- [x] `onError` - エラー発生時 (verified: Arena.onError())
 
 ### 6.2 チェーン可能
 

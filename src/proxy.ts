@@ -2,7 +2,7 @@
  * nostr-battle-room - Proxy Support
  * Configure WebSocket to work through HTTP/HTTPS proxies
  *
- * Call configureProxy() before creating any BattleRoom instances.
+ * Call configureProxy() before creating any Arena instances.
  * Reads proxy URL from environment variables:
  *   - HTTPS_PROXY
  *   - HTTP_PROXY
@@ -16,7 +16,7 @@
  * configureProxy();
  *
  * // Now create rooms as usual
- * const room = new BattleRoom({ gameId: 'my-game' });
+ * const room = new Arena({ gameId: 'my-game' });
  * ```
  */
 

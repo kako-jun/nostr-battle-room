@@ -8,9 +8,9 @@
 // =============================================================================
 
 /**
- * Configuration for BattleRoom
+ * Configuration for Arena
  */
-export interface BattleRoomConfig {
+export interface ArenaConfig {
   /** Unique identifier for the game (e.g., 'sasso', 'tetris') */
   gameId: string;
 
@@ -36,7 +36,7 @@ export interface BattleRoomConfig {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: Required<Omit<BattleRoomConfig, 'gameId'>> = {
+export const DEFAULT_CONFIG: Required<Omit<ArenaConfig, 'gameId'>> = {
   relays: ['wss://relay.damus.io', 'wss://nos.lol', 'wss://relay.nostr.band'],
   roomExpiry: 600000,
   heartbeatInterval: 3000,
@@ -207,9 +207,9 @@ export type BattleEventContent<TGameState = Record<string, unknown>> =
 // =============================================================================
 
 /**
- * Event names for BattleRoom
+ * Event names for Arena
  */
-export type BattleRoomEventName =
+export type ArenaEventName =
   | 'opponentJoin'
   | 'opponentState'
   | 'opponentDisconnect'
@@ -219,9 +219,9 @@ export type BattleRoomEventName =
   | 'error';
 
 /**
- * Event callbacks for BattleRoom
+ * Event callbacks for Arena
  */
-export interface BattleRoomCallbacks<TGameState = Record<string, unknown>> {
+export interface ArenaCallbacks<TGameState = Record<string, unknown>> {
   /** Called when opponent joins the room */
   onOpponentJoin?: (publicKey: string) => void;
 

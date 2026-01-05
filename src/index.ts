@@ -4,10 +4,10 @@
  *
  * @example
  * ```typescript
- * // Using the core BattleRoom class (framework-agnostic)
- * import { BattleRoom } from 'nostr-battle-room';
+ * // Using the core Arena class (framework-agnostic)
+ * import { Arena } from 'nostr-battle-room';
  *
- * const room = new BattleRoom<MyGameState>({ gameId: 'my-game' });
+ * const room = new Arena<MyGameState>({ gameId: 'my-game' });
  * room.onOpponentState((state) => console.log(state));
  * await room.create();
  * ```
@@ -15,10 +15,10 @@
  * @example
  * ```typescript
  * // Using the React hook
- * import { useBattleRoom } from 'nostr-battle-room/react';
+ * import { useArena } from 'nostr-battle-room/react';
  *
  * function Game() {
- *   const { roomState, opponent, createRoom } = useBattleRoom<MyGameState>({
+ *   const { roomState, opponent, createRoom } = useArena<MyGameState>({
  *     gameId: 'my-game',
  *   });
  *   // ...
@@ -27,15 +27,15 @@
  */
 
 // Core exports
-export { BattleRoom } from './core/BattleRoom';
+export { Arena } from './core/Arena';
 export { NostrClient } from './core/NostrClient';
 export type { NostrClientOptions, NostrFilter } from './core/NostrClient';
 
 // Types
 export type {
-  BattleRoomConfig,
-  BattleRoomCallbacks,
-  BattleRoomEventName,
+  ArenaConfig,
+  ArenaCallbacks,
+  ArenaEventName,
   RoomState,
   RoomStatus,
   OpponentBase,

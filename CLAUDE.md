@@ -28,11 +28,11 @@ src/
 ├── proxy.ts              # Proxy/Node.js WebSocket setup
 ├── core/
 │   ├── NostrClient.ts    # Low-level Nostr connection
-│   └── BattleRoom.ts     # Main room management class
+│   └── Arena.ts     # Main room management class
 ├── react/
-│   └── useBattleRoom.ts  # React hook wrapper
+│   └── useArena.ts  # React hook wrapper
 └── testing/
-    └── MockBattleRoom.ts # Testing utilities
+    └── MockArena.ts # Testing utilities
 ```
 
 ### Key Classes
@@ -40,9 +40,9 @@ src/
 | Class            | Purpose                                   |
 | ---------------- | ----------------------------------------- |
 | `NostrClient`    | Nostr relay connection, publish/subscribe |
-| `BattleRoom`     | Room lifecycle, state sync, heartbeat     |
-| `useBattleRoom`  | React hook wrapping BattleRoom            |
-| `MockBattleRoom` | Testing without real Nostr                |
+| `Arena`     | Room lifecycle, state sync, heartbeat     |
+| `useArena`  | React hook wrapping Arena            |
+| `MockArena` | Testing without real Nostr                |
 
 ### Dependencies
 
@@ -63,7 +63,7 @@ src/
 
 ```typescript
 // Configuration
-interface BattleRoomConfig {
+interface ArenaConfig {
   gameId: string; // Unique game identifier
   relays?: string[]; // Nostr relay URLs
   roomExpiry?: number; // Room expiration (ms)
@@ -98,9 +98,9 @@ room.onError((error) => {});
 ## Testing
 
 ```typescript
-import { MockBattleRoom } from 'nostr-arena/testing';
+import { MockArena } from 'nostr-arena/testing';
 
-const mock = new MockBattleRoom({ gameId: 'test' });
+const mock = new MockArena({ gameId: 'test' });
 mock.simulateOpponentJoin('pubkey');
 mock.simulateOpponentState({ score: 100 });
 ```
@@ -111,9 +111,9 @@ mock.simulateOpponentState({ score: 100 });
 
 1. Add type to `types.ts` (e.g., `NewEventContent`)
 2. Add to `BattleEventContent` union type
-3. Handle in `BattleRoom.handleRoomEvent()`
+3. Handle in `Arena.handleRoomEvent()`
 4. Add callback method `onNewEvent()`
-5. Update `MockBattleRoom` with `simulateNewEvent()`
+5. Update `MockArena` with `simulateNewEvent()`
 
 ### Changing default config
 
@@ -121,8 +121,8 @@ Edit `DEFAULT_CONFIG` in `types.ts`
 
 ### Adding React hook functionality
 
-1. Update `useBattleRoom.ts`
-2. Export new return values in `UseBattleRoomReturn`
+1. Update `useArena.ts`
+2. Export new return values in `UseArenaReturn`
 
 ### Node.js / Proxy setup
 

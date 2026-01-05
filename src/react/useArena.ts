@@ -1,11 +1,11 @@
 /**
  * nostr-battle-room - React Hook
- * React bindings for BattleRoom
+ * React bindings for Arena
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { BattleRoom } from '../core/BattleRoom';
-import type { BattleRoomConfig, BattleRoomCallbacks, RoomState, OpponentBase } from '../types';
+import { Arena } from '../core/Arena';
+import type { ArenaConfig, ArenaCallbacks, RoomState, OpponentBase } from '../types';
 import { INITIAL_ROOM_STATE } from '../types';
 
 /**
@@ -16,9 +16,9 @@ export interface OpponentState<TGameState> extends OpponentBase {
 }
 
 /**
- * Return type for useBattleRoom hook
+ * Return type for useArena hook
  */
-export interface UseBattleRoomReturn<TGameState> {
+export interface UseArenaReturn<TGameState> {
   // State
   roomState: RoomState;
   opponent: OpponentState<TGameState> | null;
@@ -55,7 +55,7 @@ export interface UseBattleRoomReturn<TGameState> {
  *     createRoom,
  *     joinRoom,
  *     sendState,
- *   } = useBattleRoom<MyGameState>({
+ *   } = useArena<MyGameState>({
  *     gameId: 'my-game',
  *     onOpponentState: (state) => {
  *       console.log('Opponent moved:', state.position);
@@ -82,15 +82,15 @@ export interface UseBattleRoomReturn<TGameState> {
  * }
  * ```
  */
-export function useBattleRoom<TGameState = Record<string, unknown>>(
-  config: BattleRoomConfig,
-  callbacks?: BattleRoomCallbacks<TGameState>
-): UseBattleRoomReturn<TGameState> {
+export function useArena<TGameState = Record<string, unknown>>(
+  config: ArenaConfig,
+  callbacks?: ArenaCallbacks<TGameState>
+): UseArenaReturn<TGameState> {
   const [roomState, setRoomState] = useState<RoomState>(INITIAL_ROOM_STATE);
   const [opponent, setOpponent] = useState<OpponentState<TGameState> | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const roomRef = useRef<BattleRoom<TGameState> | null>(null);
+  const roomRef = useRef<Arena<TGameState> | null>(null);
   const callbacksRef = useRef(callbacks);
 
   // Keep callbacks ref updated
@@ -98,9 +98,9 @@ export function useBattleRoom<TGameState = Record<string, unknown>>(
     callbacksRef.current = callbacks;
   }, [callbacks]);
 
-  // Initialize BattleRoom
+  // Initialize Arena
   useEffect(() => {
-    const room = new BattleRoom<TGameState>(config);
+    const room = new Arena<TGameState>(config);
 
     // Register callbacks that update React state
     room.onOpponentJoin((publicKey: string) => {
@@ -175,7 +175,7 @@ export function useBattleRoom<TGameState = Record<string, unknown>>(
 
   // Create room
   const createRoom = useCallback(async (baseUrl?: string): Promise<string> => {
-    if (!roomRef.current) throw new Error('BattleRoom not initialized');
+    if (!roomRef.current) throw new Error('Arena not initialized');
 
     const url = await roomRef.current.create(baseUrl);
     setRoomState(roomRef.current.roomState);
@@ -184,7 +184,7 @@ export function useBattleRoom<TGameState = Record<string, unknown>>(
 
   // Join room
   const joinRoom = useCallback(async (roomId: string): Promise<void> => {
-    if (!roomRef.current) throw new Error('BattleRoom not initialized');
+    if (!roomRef.current) throw new Error('Arena not initialized');
 
     await roomRef.current.join(roomId);
     setRoomState(roomRef.current.roomState);

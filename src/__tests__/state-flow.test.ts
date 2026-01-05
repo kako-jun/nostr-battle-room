@@ -35,17 +35,17 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { MockBattleRoom } from '../testing/MockBattleRoom';
+import { MockArena } from '../testing/MockArena';
 
 interface TestGameState {
   score: number;
 }
 
 describe('State Flow (architecture.md)', () => {
-  let room: MockBattleRoom<TestGameState>;
+  let room: MockArena<TestGameState>;
 
   beforeEach(() => {
-    room = new MockBattleRoom<TestGameState>({ gameId: 'test-game' });
+    room = new MockArena<TestGameState>({ gameId: 'test-game' });
   });
 
   describe('Initial state: idle', () => {
@@ -93,10 +93,10 @@ describe('State Flow (architecture.md)', () => {
 
   describe('Transition: idle → ready (via join())', () => {
     /**
-     * Source: architecture.md - BattleRoom API
+     * Source: architecture.md - Arena API
      * "join(roomId): Promise<void>"
      *
-     * Note: The diagram shows idle → joining → ready, but for MockBattleRoom
+     * Note: The diagram shows idle → joining → ready, but for MockArena
      * join() directly goes to ready (simplified for testing)
      */
 

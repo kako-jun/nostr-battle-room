@@ -22,7 +22,7 @@ npm install nostr-arena nostr-tools
 ### React
 
 ```tsx
-import { useBattleRoom } from 'nostr-arena/react';
+import { useArena } from 'nostr-arena/react';
 
 interface MyGameState {
   score: number;
@@ -31,7 +31,7 @@ interface MyGameState {
 
 function Game() {
   const { roomState, opponent, createRoom, joinRoom, sendState, leaveRoom } =
-    useBattleRoom<MyGameState>({
+    useArena<MyGameState>({
       gameId: 'my-game',
     });
 
@@ -58,13 +58,13 @@ function Game() {
 ### Vanilla JavaScript
 
 ```typescript
-import { BattleRoom } from 'nostr-arena';
+import { Arena } from 'nostr-arena';
 
 interface MyGameState {
   score: number;
 }
 
-const room = new BattleRoom<MyGameState>({
+const room = new Arena<MyGameState>({
   gameId: 'my-game',
   relays: ['wss://relay.damus.io'],
 });
@@ -98,10 +98,10 @@ room.disconnect();
 
 ## API
 
-### BattleRoomConfig
+### ArenaConfig
 
 ```typescript
-interface BattleRoomConfig {
+interface ArenaConfig {
   gameId: string; // Required: unique game identifier
   relays?: string[]; // Nostr relay URLs (default: public relays)
   roomExpiry?: number; // Room expiration in ms (default: 600000 = 10 min)
@@ -140,13 +140,13 @@ interface BattleRoomConfig {
 For Node.js environments or when you need proxy support, call `configureProxy()` before creating any rooms:
 
 ```typescript
-import { configureProxy, BattleRoom } from 'nostr-arena';
+import { configureProxy, Arena } from 'nostr-arena';
 
 // Call once at startup
 configureProxy();
 
 // Now create rooms as usual
-const room = new BattleRoom({ gameId: 'my-game' });
+const room = new Arena({ gameId: 'my-game' });
 ```
 
 This function:
@@ -165,9 +165,9 @@ npm install https-proxy-agent     # Required for proxy support
 ## Testing
 
 ```typescript
-import { MockBattleRoom } from 'nostr-arena/testing';
+import { MockArena } from 'nostr-arena/testing';
 
-const mock = new MockBattleRoom<MyGameState>({ gameId: 'test' });
+const mock = new MockArena<MyGameState>({ gameId: 'test' });
 
 // Simulate opponent actions
 mock.simulateOpponentJoin('pubkey123');

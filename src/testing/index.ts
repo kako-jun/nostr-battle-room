@@ -3,4 +3,4 @@
  * Mock implementations for testing
  */
 
-export { MockBattleRoom } from './MockBattleRoom';
+export { MockArena } from './MockArena';

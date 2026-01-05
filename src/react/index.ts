@@ -3,5 +3,5 @@
  * React hooks for Nostr battle rooms
  */
 
-export { useBattleRoom } from './useBattleRoom';
-export type { UseBattleRoomReturn, OpponentState } from './useBattleRoom';
+export { useArena } from './useArena';
+export type { UseArenaReturn, OpponentState } from './useArena';
