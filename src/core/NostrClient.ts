@@ -209,11 +209,23 @@ export class NostrClient {
       return () => {};
     }
 
+    if (filters.length === 0) {
+      console.warn('[NostrClient] No filters provided');
+      return () => {};
+    }
+
+    console.log('[NostrClient] Subscribing with filter:', JSON.stringify(filters[0]));
+
     try {
-      // nostr-tools types show Filter (singular) but implementation accepts Filter[]
-      const sub = this.pool.subscribeMany(this.relays, filters as unknown as Filter, {
+      // subscribeMany expects a single Filter, not Filter[]
+      // It internally groups by relay and creates the filter array
+      const sub = this.pool.subscribeMany(this.relays, filters[0], {
         onevent(event) {
+          console.log('[NostrClient] Received event:', event.kind);
           onEvent(event as NostrEvent);
+        },
+        oneose() {
+          console.log('[NostrClient] EOSE received');
         },
       });
 

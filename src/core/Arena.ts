@@ -371,17 +371,31 @@ export class Arena<TGameState = Record<string, unknown>> {
       opponentPubkey: roomContent.hostPubkey,
     });
 
-    // Send join event
-    await this.client.publish({
+    // Send join event multiple times to ensure host receives it
+    // (EPHEMERAL events are not stored, so timing is critical)
+    const joinPayload = {
       kind: NOSTR_KINDS.EPHEMERAL,
       tags: [['d', createRoomTag(this.config.gameId, roomId)]],
       content: JSON.stringify({
         type: 'join',
         playerPubkey: this.client.publicKey,
       }),
-    });
+    };
+
+    console.log('[Arena] Sending join event for room:', roomId);
+    await this.client.publish(joinPayload);
 
     this.subscribeToRoom(roomId);
+
+    // Send additional join events after short delays to handle timing issues
+    setTimeout(() => {
+      console.log('[Arena] Sending retry join event (500ms)');
+      this.client.publish(joinPayload);
+    }, 500);
+    setTimeout(() => {
+      console.log('[Arena] Sending retry join event (1500ms)');
+      this.client.publish(joinPayload);
+    }, 1500);
   }
 
   /**
@@ -539,9 +553,13 @@ export class Arena<TGameState = Record<string, unknown>> {
       return;
     }
 
+    const roomTag = createRoomTag(this.config.gameId, roomId);
+    console.log('[Arena] Subscribing to room:', roomId, 'tag:', roomTag);
+
     this.unsubscribe = this.client.subscribe(
-      [{ kinds: [NOSTR_KINDS.EPHEMERAL], '#d': [createRoomTag(this.config.gameId, roomId)] }],
+      [{ kinds: [NOSTR_KINDS.EPHEMERAL], '#d': [roomTag] }],
       (event) => {
+        console.log('[Arena] Received event:', event.kind, 'from:', event.pubkey?.slice(0, 8) ?? 'unknown');
         try {
           this.handleRoomEvent(event);
         } catch (error) {
@@ -684,6 +702,11 @@ export class Arena<TGameState = Record<string, unknown>> {
 
   private publishToRoom(content: Record<string, unknown>): void {
     if (!this._roomState.roomId) return;
+
+    // Only log non-heartbeat messages to reduce noise
+    if (content.type !== 'heartbeat') {
+      console.log('[Arena] Publishing to room:', content.type);
+    }
 
     this.client
       .publish({
