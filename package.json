@@ -1,7 +1,7 @@
 {
   "name": "nostr-battle-room",
   "version": "0.1.0",
-  "description": "Nostr-based real-time battle room for multiplayer games",
+  "description": "Nostr-based real-time battle room for multiplayer games. No server required.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -27,6 +27,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
+    "prepare": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -37,10 +38,23 @@
     "battle",
     "matchmaking",
     "p2p",
-    "realtime"
+    "realtime",
+    "websocket",
+    "decentralized"
   ],
-  "author": "kako-jun",
+  "author": {
+    "name": "kako-jun",
+    "url": "https://github.com/kako-jun"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kako-jun/nostr-battle-room.git"
+  },
+  "homepage": "https://github.com/kako-jun/nostr-battle-room#readme",
+  "bugs": {
+    "url": "https://github.com/kako-jun/nostr-battle-room/issues"
+  },
   "peerDependencies": {
     "nostr-tools": "^2.0.0",
     "react": "^18.0.0 || ^19.0.0",
