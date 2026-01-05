@@ -251,7 +251,10 @@ export class NostrClient {
         },
         onclose: (reasons) => {
           // Check if at least one relay sent EOSE (successful response)
-          const hasEose = reasons.some((r) => r === 'EOSE');
+          // nostr-tools may return 'EOSE' or 'closed automatically on eose'
+          const hasEose = reasons.some((r) =>
+            typeof r === 'string' && r.toLowerCase().includes('eose')
+          );
           if (hasEose) {
             // Valid response (may have 0 events, but relay responded)
             finish(true);
